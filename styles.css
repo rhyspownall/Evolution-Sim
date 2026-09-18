@@ -1,0 +1,9 @@
+#world-canvas {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 800px;
+    height: 600px;
+    background-color: #444;
+    border-radius: 15px;
+}
