@@ -1,9 +1,12 @@
 import {
     creatures,
-    createCreatureButton
+    createCreatureButton,
+    worldCanvas
 } from "./state.js"
 
 let n = 0;
+const worldHeight = worldCanvas.clientHeight;
+const worldWidth = worldCanvas.clientWidth;
 
 export function letterName (n) {
     let label = "";
@@ -21,8 +24,8 @@ createCreatureButton.addEventListener("click", () => {
         type: "blob",
         name: letterName(n),
         id: `CR${n}`,
-        x: Math.random(),
-        y: Math.random()
+        x: Math.floor(Math.random() * worldWidth),
+        y: Math.floor(Math.random() * worldHeight)
     }
 
     creatures.push(newCreature);
@@ -41,7 +44,7 @@ export function renderCreature (creature) {
         element.style.left = creature.x + "px";
 
         label = document.createElement("span");
-        label.classList.add("creature.label");
+        label.classList.add("creature-label");
         element.appendChild(label);
         label.textContent = creature.name;
 
@@ -52,6 +55,8 @@ export function renderCreature (creature) {
     }
 }
 
-export function creatureMovement() {
-
+export function creatureMovement(creatures) {
+    creatures.forEach(creature => {
+       //yVelocity =
+    });
 }
