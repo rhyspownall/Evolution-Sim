@@ -24,39 +24,66 @@ createCreatureButton.addEventListener("click", () => {
         type: "blob",
         name: letterName(n),
         id: `CR${n}`,
+        speed: 1,
+
         x: Math.floor(Math.random() * worldWidth),
-        y: Math.floor(Math.random() * worldHeight)
+        y: Math.floor(Math.random() * worldHeight),
+        targetX: null,
+        targetY: null
     }
 
     creatures.push(newCreature);
     renderCreature(newCreature);
 });
 
-export function renderCreature (creature) {
-    let element;
-    let label;
+export function renderCreature(creature) {
+    let element = document.getElementById(creature.id);
 
-    if (!document.getElementById(creature.id)) {  //check whether element exists 
-        element = document.createElement('div');     //if not make element
+    if (!element) {
+        element = document.createElement("div");
+
         element.id = creature.id;
         element.classList.add("creatures");
-        element.style.top = creature.y + "px";
-        element.style.left = creature.x + "px";
 
-        label = document.createElement("span");
+        const label = document.createElement("span");
         label.classList.add("creature-label");
-        element.appendChild(label);
         label.textContent = creature.name;
 
+        element.appendChild(label);
 
         document.getElementById("world-canvas").appendChild(element);
-
-        console.log("worked");
     }
+
+    element.style.top = creature.y + "px";
+    element.style.left = creature.x + "px";
 }
+
 
 export function creatureMovement(creatures) {
     creatures.forEach(creature => {
-       //yVelocity =
+
+        if (creature.targetX === null) {
+            creature.targetX = Math.random() * worldWidth;
+            creature.targetY = Math.random() * worldHeight;
+        }
+
+        const dy = creature.targetY - creature.y;
+        const dx = creature.targetX - creature.x;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 2) {
+            creature.targetX = null;
+            creature.targetY = null;
+            return;
+        }
+
+        const directionX = dx / distance;
+        const directionY = dy / distance;
+
+        creature.x += directionX * creature.speed;
+        creature.y += directionY * creature.speed;
+
+        renderCreature(creature);
     });
 }
