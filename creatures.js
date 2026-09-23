@@ -1,12 +1,11 @@
 import {
     creatures,
     createCreatureButton,
-    worldCanvas
+    worldHeight,
+    worldWidth
 } from "./state.js"
 
 let n = 0;
-const worldHeight = worldCanvas.clientHeight;
-const worldWidth = worldCanvas.clientWidth;
 
 export function letterName (n) {
     let label = "";
@@ -24,7 +23,8 @@ createCreatureButton.addEventListener("click", () => {
         type: "blob",
         name: letterName(n),
         id: `CR${n}`,
-        speed: 1,
+        speed: 0.5 + Math.random(),
+        energy: 100,
 
         x: Math.floor(Math.random() * worldWidth),
         y: Math.floor(Math.random() * worldHeight),
