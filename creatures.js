@@ -24,6 +24,8 @@ createCreatureButton.addEventListener("click", () => {
         name: letterName(n),
         id: `CR${n}`,
         speed: 0.5 + Math.random(),
+        vision: 0.5 + Math.random(),
+        metabolism: 0.5 + (speed * 0.5) + (vision * 0.25),
         energy: 100,
 
         x: Math.floor(Math.random() * worldWidth),
