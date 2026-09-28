@@ -19,12 +19,15 @@ export function letterName (n) {
 
 createCreatureButton.addEventListener("click", () => {
     n++;
+    const speed = 0.5 + Math.random();
+    const vision = 0.5 + Math.random();
+
     const newCreature = {
         type: "blob",
         name: letterName(n),
         id: `CR${n}`,
-        speed: 0.5 + Math.random(),
-        vision: 0.5 + Math.random(),
+        speed: speed,
+        vision: vision,
         metabolism: 0.5 + (speed * 0.5) + (vision * 0.25),
         energy: 100,
 
@@ -63,6 +66,13 @@ export function renderCreature(creature) {
 
 export function creatureMovement(creatures) {
     creatures.forEach(creature => {
+
+        creature.x = Math.min(creature.x, worldWidth);
+        creature.y = Math.min(creature.y, worldHeight);
+        if (creature.targetX > worldWidth || creature.targetY > worldHeight) {
+            creature.targetX = null;
+            creature.targetY = null;
+        }
 
         if (creature.targetX === null) {
             creature.targetX = Math.random() * worldWidth;

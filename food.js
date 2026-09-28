@@ -5,7 +5,6 @@ import {
 } from "./state.js"
 
 let foodTimer = 0;
-let element;
 
 export function spawnFood() {
     const currentFood = food.length;
@@ -29,7 +28,8 @@ export function newFood() {
 }
 
 export function renderFood(food) {
-    element = document.createElement("div");
+    const element = document.createElement("div");
+    food.element = element;
 
     element.classList.add("food");
 
@@ -41,4 +41,16 @@ export function renderFood(food) {
 
     element.style.top = food.y + "px";
     element.style.left = food.x + "px";
+}
+
+// Keeps food inside the canvas when it shrinks (sidebar opening)
+export function keepFoodInBounds() {
+    food.forEach(item => {
+        if (item.x > worldWidth || item.y > worldHeight) {
+            item.x = Math.min(item.x, worldWidth);
+            item.y = Math.min(item.y, worldHeight);
+            item.element.style.left = item.x + "px";
+            item.element.style.top = item.y + "px";
+        }
+    });
 }

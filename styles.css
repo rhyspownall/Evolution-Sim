@@ -1,31 +1,127 @@
-#world-canvas {
-    position: relative;
-    margin: 10px;
-    top: 50px;
-    left: 50px;
-    width: calc(100vw - 150px);
-    height: calc(100vh - 150px);
-    background-color: #444;
-    border-radius: 15px;
+:root {
+    --gap: 50px;
+    --sidebar-width: clamp(300px, 25vw, 480px);
+    --sidebar-bg: #26262b;
+    --sidebar-border: #3a3a41;
+    --ease: cubic-bezier(0.32, 0.72, 0, 1);
+    --duration: 0.45s;
 }
 
-.creatures { 
+#world-canvas {
     position: absolute;
-    background-color: aliceblue;
-    color: #111;
-    text-align: center;
+    top: var(--gap);
+    left: var(--gap);
+    right: var(--gap);
+    height: 600px;
+    background-color: #444;
+    border-radius: 15px;
+    transition: right var(--duration) var(--ease);
+    overflow: hidden;
+}
 
-    height: 20px;
+body.sidebar-open #world-canvas {
+    right: calc(var(--sidebar-width) + var(--gap));
+}
+
+/* Sidebar */
+#sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--sidebar-bg);
+    border-left: 1px solid var(--sidebar-border);
+    transform: translateX(100%);
+    transition: transform var(--duration) var(--ease),
+                box-shadow var(--duration) var(--ease);
+    z-index: 10;
+}
+
+body.sidebar-open #sidebar {
+    transform: translateX(0);
+    box-shadow: -12px 0 32px rgba(0, 0, 0, 0.25);
+}
+
+#sidebar-content {
+    height: 100%;
+    padding: 24px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+body.sidebar-open #sidebar-content {
+    opacity: 1;
+    transition: opacity 0.3s ease 0.15s;
+}
+
+/* Toggle tab, attached to the sidebar's left edge */
+#sidebar-toggle {
+    position: absolute;
+    top: var(--gap);
+    left: -32px;
+    width: 32px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: #c9c9d1;
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--sidebar-border);
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+#sidebar-toggle:hover {
+    color: #fff;
+    background-color: #303036;
+}
+
+#sidebar-toggle:focus-visible {
+    outline: 2px solid #8ab4ff;
+    outline-offset: -2px;
+}
+
+#sidebar-toggle svg {
+    transition: transform var(--duration) var(--ease);
+}
+
+body.sidebar-open #sidebar-toggle svg {
+    transform: rotate(180deg);
+}
+
+.creatures {
+    position: absolute;
     width: 20px;
+    height: 20px;
     border-radius: 50%;
+    background-color: #5ec4b6;
+    transform: translate(-50%, -50%);
+}
 
+.creature-label {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: #eee;
 }
 
 .food {
     position: absolute;
-    background-color: red;
-
-    height: 15px;
-    width: 15px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
+    background-color: #e0b84a;
+    transform: translate(-50%, -50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root { --duration: 0.01s; }
 }

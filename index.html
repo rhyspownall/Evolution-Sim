@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Evo sim</title>
-    </title>
 </head>
 
 <body>
@@ -13,6 +12,14 @@
     <button id="create-creature">Create Creature</button>
     <div id="world-canvas"></div>
 
+    <aside id="sidebar" aria-label="Side panel">
+        <button id="sidebar-toggle" type="button" aria-expanded="false" aria-controls="sidebar-content" aria-label="Open side panel">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <div id="sidebar-content" inert></div>
+    </aside>
 
     <script type="module" src="main.js"></script>
 </body>
