@@ -82,7 +82,7 @@ export function creatureMovement(creatures) {
         const dy = creature.targetY - creature.y;
         const dx = creature.targetX - creature.x;
 
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        const distance = Math.sqrt(dx ** 2 + dy ** 2);
 
         if (distance < 2) {
             creature.targetX = null;
@@ -97,5 +97,28 @@ export function creatureMovement(creatures) {
         creature.y += directionY * creature.speed;
 
         renderCreature(creature);
+    });
+}
+
+export function searchForFood(creatures, food) {
+    creatures.forEach(creature => {
+        if (creature.energy < 60) {
+            let closestFood = null;
+            let closestDistance = Infinity;
+            food.forEach(foodItem => {
+                const foodDistanceX = foodItem.x - creature.x;
+                const foodDistanceY = foodItem.y - creature.y;
+                const distance = Math.sqrt(
+                    foodDistanceX ** 2 + foodDistanceY ** 2
+                );
+                const foodVision = creature.vision * 50;
+                if (distance < foodVision && distance < closestDistance) {
+                    closestFood = foodItem;
+                    closestDistance = distance;
+                }
+            });
+
+            creature.targetFood = closestFood;
+        }
     });
 }
