@@ -1,6 +1,6 @@
 :root {
     --gap: 50px;
-    --sidebar-width: clamp(300px, 25vw, 480px);
+    --sidebar-width: clamp(300px, 35vw, 480px);
     --sidebar-bg: #26262b;
     --sidebar-border: #3a3a41;
     --ease: cubic-bezier(0.32, 0.72, 0, 1);
