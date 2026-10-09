@@ -1,13 +1,14 @@
-import {creatureMovement} from "./creatures.js";
-import {creatures} from "./state.js";
+import {creatureMovement, searchForFood} from "./creatures.js";
+import {creatures, food} from "./state.js";
 import {spawnFood, keepFoodInBounds} from "./food.js";
 import {} from "./ui.js";
 
 function gameLoop() {
+    searchForFood(creatures, food);
     creatureMovement(creatures);
     spawnFood();
     keepFoodInBounds();
-    
+
     requestAnimationFrame(gameLoop);
 }
 

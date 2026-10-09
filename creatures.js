@@ -1,5 +1,6 @@
 import {
     creatures,
+    food,
     createCreatureButton,
     worldHeight,
     worldWidth
@@ -74,6 +75,16 @@ export function creatureMovement(creatures) {
             creature.targetY = null;
         }
 
+        if (creature.targetFood) {
+            if (!food.includes(creature.targetFood)) {  // if food[] dpoes not contain the target array anymore 
+                creature.targetFood = null;             // (been eaten by other guy)
+            } else {
+                creature.targetX = creature.targetFood.x;
+                creature.targetY = creature.targetFood.y;
+            }
+        }
+        
+
         if (creature.targetX === null) {
             creature.targetX = Math.random() * worldWidth;
             creature.targetY = Math.random() * worldHeight;
@@ -95,6 +106,7 @@ export function creatureMovement(creatures) {
 
         creature.x += directionX * creature.speed;
         creature.y += directionY * creature.speed;
+        creature.energy -= creature.metabolism * 0.02;
 
         renderCreature(creature);
     });
@@ -119,6 +131,32 @@ export function searchForFood(creatures, food) {
             });
 
             creature.targetFood = closestFood;
+        }
+    });
+}
+
+export function eatFood(creatures, food) {
+    creatures.forEach(creature => {
+        const target = creature.targetFood;
+        if (!target) return;
+
+        const index = food.indexOf(target);
+        if (index === -1) {
+            creature.targetFood = null;
+            return;
+        }
+
+        const dx = target.x - creature.x;
+        const dy = target.y - creature.y;
+
+        if (Math.sqrt(dx ** 2 + dy ** 2) < 10) {
+            creature.energy = Math.min(100, creature.energy + target.energy);
+            food.splice(index, 1);
+            target.element.remove();
+
+            creature.targetFood = null;
+            creature.targetX = null;
+            creature.targetY = null;
         }
     });
 }
